@@ -30,7 +30,7 @@ public class Rooms {
 	
 	public void printPile() {
         Object[] rooms = bookableRooms.toArray();
-        for (int i = 0; i < rooms.length; i++) {
+        for (int i = rooms.length - 1; i >= 0; i--) {
             Room room = (Room) rooms[i];
             room.printInfo();
         }

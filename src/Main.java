@@ -11,16 +11,23 @@ public class Main {
 
     public static void main(String[] args) {
         initializeRooms();
-        printAvailableRooms();
-        printUnavailableRooms();
+        for (String category : catogeries) {
+        	System.out.println("################## " + category + " ##################");
+        	printStatsOfCategory(category);
+        	System.out.println("############################################");
+        }
         processReservation();
-        printAvailableRooms();
-        printUnavailableRooms();
+        System.out.println("Reservations are read and processed !!!");
         printWaitingLine();
         makeOddNumberRoomsAvailable();
-        printAvailableRooms();
-        printUnavailableRooms();
+        System.out.println("Odd numbered rooms are now available !!!");
+        for (String category : catogeries) {
+        	System.out.println("################## " + category + " ##################");
+        	printStatsOfCategory(category);
+        	System.out.println("############################################");
+        }
         processWaitingLines();
+        System.out.println("Waiting lines are now processed !!!");
         printWaitingLine();
         printAvailableRooms();
         printUnavailableRooms();
@@ -78,12 +85,21 @@ public class Main {
             for (int i = bookedRooms.getEntryCount() - 1; i >= 0; i--) {
                 Room room = bookedRooms.getEntry(i);
                 if (room.getNumber() % 2 != 0) {
-                    room.setBooked(true);
+                    room.setBooked(false);
                     rooms.getBookableRooms().push(room);
                     rooms.getBookedRooms().remove(i);
                 }
             }
         }
+    }
+    
+    private static void printStatsOfCategory(String category) {
+    	Rooms rooms = findCategoryRooms(category);
+    	System.out.println("Available Rooms for " + category + " Rooms (size: " + rooms.getBookableRooms().size() + ")");
+    	rooms.printPile();
+    	System.out.println();
+    	System.out.println("Unavailable Rooms for " + category + " Rooms (size: " + rooms.getBookedRooms().getEntryCount() + ")");
+    	rooms.printBookedRooms();
     }
 
     private static void printAvailableRooms() {
@@ -93,7 +109,7 @@ public class Main {
             catogerizedRooms[i].printPile();
             System.out.println();
         }
-        System.out.println("=====================================");
+        System.out.println("============================================");
     }
     
     private static void printUnavailableRooms() {
@@ -103,7 +119,7 @@ public class Main {
     		catogerizedRooms[i].printBookedRooms();
     		System.out.println();
     	}
-    	System.out.println("=====================================");
+    	System.out.println("============================================");
     }
 
     private static void printWaitingLine() {
@@ -113,6 +129,6 @@ public class Main {
             catogerizedRooms[i].printWaitingLine();
             System.out.println();
         }
-        System.out.println("=====================================");
+        System.out.println("============================================");
     }
 }

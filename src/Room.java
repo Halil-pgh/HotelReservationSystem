@@ -27,7 +27,7 @@ public class Room {
 	}
 	
 	public void printInfo() {
-		System.out.println("Room Number: " + roomNumber + ", Room Type: " + roomType);
+		System.out.println("Room Number: " + roomNumber + ", Room Type: " + roomType + ", " + (booked ? "Unavailable" : "Available"));
 	}
 }
 
