@@ -6,20 +6,24 @@ public class Main {
     private static String[] catogeries = {"Single", "Double", "Suite", "Deluxe"};
     private static Rooms[] catogerizedRooms = {new Rooms(), new Rooms(), new Rooms(), new Rooms()};
 
-    private static ArrayListInterface<Room> unavailableRooms = new ArrayList<>(); // ?
-    private static ArrayListInterface<Room> availableRooms = new ArrayList<>(); // ?
+    private static ListInterface<Room> unavailableRooms = new ArrayList<>();
+    private static ListInterface<Room> availableRooms = new ArrayList<>();
 
     public static void main(String[] args) {
         initializeRooms();
         printAvailableRooms();
+        printUnavailableRooms();
         processReservation();
         printAvailableRooms();
+        printUnavailableRooms();
         printWaitingLine();
         makeOddNumberRoomsAvailable();
         printAvailableRooms();
+        printUnavailableRooms();
         processWaitingLines();
         printWaitingLine();
         printAvailableRooms();
+        printUnavailableRooms();
     }
 
     private static void initializeRooms() {
@@ -70,14 +74,13 @@ public class Main {
 
     private static void makeOddNumberRoomsAvailable() {
         for (Rooms rooms : catogerizedRooms) {
-            ArrayListInterface<Room> bookedRooms = rooms.getBookedRooms();
-            for (int i = 0; i < bookedRooms.size(); i++) {
-                Room room = bookedRooms.get(i);
+            ListInterface<Room> bookedRooms = rooms.getBookedRooms();
+            for (int i = bookedRooms.getEntryCount() - 1; i >= 0; i--) {
+                Room room = bookedRooms.getEntry(i);
                 if (room.getNumber() % 2 != 0) {
                     room.setBooked(true);
                     rooms.getBookableRooms().push(room);
                     rooms.getBookedRooms().remove(i);
-                    i--;
                 }
             }
         }
@@ -91,6 +94,16 @@ public class Main {
             System.out.println();
         }
         System.out.println("=====================================");
+    }
+    
+    private static void printUnavailableRooms() {
+    	System.out.println("Unavailable Rooms");
+    	for (int i = 0; i < catogerizedRooms.length; i++) {
+    		System.out.println(catogeries[i] + " Rooms (size: " + catogerizedRooms[i].getBookedRooms().getEntryCount() + ")");
+    		catogerizedRooms[i].printBookedRooms();
+    		System.out.println();
+    	}
+    	System.out.println("=====================================");
     }
 
     private static void printWaitingLine() {

@@ -3,7 +3,7 @@ import ADTs.*;
 public class Rooms {
 	private StackInterface<Room> bookableRooms;
 	private QueueInterface<Reservation> waitingLine;
-	private ArrayListInterface<Room> bookedRooms;
+	private ListInterface<Room> bookedRooms;
 	
 	public Rooms() {
 		bookableRooms = new Stack<Room>();
@@ -29,40 +29,25 @@ public class Rooms {
 	}
 	
 	public void printPile() {
-		StackInterface<Room> tempStack = new Stack<Room>();
-		while (!bookableRooms.isEmpty()) {
-			Room room = bookableRooms.pop();
-			tempStack.push(room);
-			room.printInfo();
-		}
-		while(!tempStack.isEmpty()) {
-			Room room = tempStack.pop();
-			bookableRooms.push(room);
-		}
+        Object[] rooms = bookableRooms.toArray();
+        for (int i = 0; i < rooms.length; i++) {
+            Room room = (Room) rooms[i];
+            room.printInfo();
+        }
 	}
 	
 	public void printWaitingLine() {
-		QueueInterface<Reservation> tempQueue = new Queue<Reservation>();
-		while (!waitingLine.isEmpty()) {
-			Reservation reservation = waitingLine.dequeue();
-			reservation.printInfo();
-			tempQueue.enqueue(reservation);
-		}
-		while (!tempQueue.isEmpty()) {
-			Reservation reservation = tempQueue.dequeue();
-			waitingLine.enqueue(reservation);
-		}
+        Object[] reservations = waitingLine.toArray();
+        for (int i = 0; i < reservations.length; i++) {
+            Reservation reservation = (Reservation) reservations[i];
+            reservation.printInfo();
+        }
 	}
 	
 	public void printBookedRooms() {
-		Room[] roomArr = bookedRooms.toArray();
-		int i = 0;
-		Room entry = roomArr[i];
-		while (entry != null) {
-			entry.printInfo();
-			i++;
-			entry = roomArr[i];
-		}
+		for (int i = 0; i < bookedRooms.getEntryCount(); i++) {
+			bookedRooms.getEntry(i).printInfo();
+        }
 	}
 	
 	public void processWaitingLine() {
@@ -74,7 +59,7 @@ public class Rooms {
 		}
 	}
 	
-	public ArrayListInterface<Room> getBookedRooms() {
+	public ListInterface<Room> getBookedRooms() {
 		return bookedRooms;
 	}
 	
